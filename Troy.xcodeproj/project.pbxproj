@@ -1,0 +1,322 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CB3DD7391AF9E723006D2972 /* Troy.c in Sources */ = {isa = PBXBuildFile; fileRef = CB3DD7351AF9E5F7006D2972 /* Troy.c */; };
+		CB3DD73C1AF9EAD8006D2972 /* debugInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = CB3DD73A1AF9E91D006D2972 /* debugInfo.h */; };
+		CB3DD73D1AF9EAD8006D2972 /* configure.h in Headers */ = {isa = PBXBuildFile; fileRef = CB3DD73B1AF9EA57006D2972 /* configure.h */; };
+		CB3DD74B1AFA1732006D2972 /* HookSystemCall.c in Sources */ = {isa = PBXBuildFile; fileRef = CB3DD7491AFA1732006D2972 /* HookSystemCall.c */; };
+		CB3DD74C1AFA1732006D2972 /* HookSystemCall.h in Headers */ = {isa = PBXBuildFile; fileRef = CB3DD74A1AFA1732006D2972 /* HookSystemCall.h */; };
+		CB3DD74F1AFA174D006D2972 /* KernelInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = CB3DD74D1AFA174D006D2972 /* KernelInfo.c */; };
+		CB3DD7501AFA174D006D2972 /* KernelInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = CB3DD74E1AFA174D006D2972 /* KernelInfo.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		CB3DD72E1AF9E1BB006D2972 /* Troy.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Troy.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB3DD7331AF9E5E6006D2972 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Troy/Info.plist; sourceTree = SOURCE_ROOT; };
+		CB3DD7351AF9E5F7006D2972 /* Troy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Troy.c; path = Troy/Troy.c; sourceTree = SOURCE_ROOT; };
+		CB3DD73A1AF9E91D006D2972 /* debugInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debugInfo.h; sourceTree = SOURCE_ROOT; };
+		CB3DD73B1AF9EA57006D2972 /* configure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = configure.h; sourceTree = SOURCE_ROOT; };
+		CB3DD7491AFA1732006D2972 /* HookSystemCall.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = HookSystemCall.c; path = Kernel/HookSystemCall/HookSystemCall.c; sourceTree = SOURCE_ROOT; };
+		CB3DD74A1AFA1732006D2972 /* HookSystemCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HookSystemCall.h; path = Kernel/HookSystemCall/HookSystemCall.h; sourceTree = SOURCE_ROOT; };
+		CB3DD74D1AFA174D006D2972 /* KernelInfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = KernelInfo.c; path = Kernel/KernelInfo/KernelInfo.c; sourceTree = SOURCE_ROOT; };
+		CB3DD74E1AFA174D006D2972 /* KernelInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KernelInfo.h; path = Kernel/KernelInfo/KernelInfo.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CB3DD7271AF9E1BB006D2972 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		973CEB101AC40B46007BECF2 = {
+			isa = PBXGroup;
+			children = (
+				973CEB1C1AC40B46007BECF2 /* Troy */,
+				973CEB1B1AC40B46007BECF2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		973CEB1B1AC40B46007BECF2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CB3DD72E1AF9E1BB006D2972 /* Troy.kext */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		973CEB1C1AC40B46007BECF2 /* Troy */ = {
+			isa = PBXGroup;
+			children = (
+				CB3DD73E1AF9EAEE006D2972 /* Kernel */,
+				CB3DD7351AF9E5F7006D2972 /* Troy.c */,
+				973CEB1D1AC40B46007BECF2 /* Supporting Files */,
+				CB3DD73A1AF9E91D006D2972 /* debugInfo.h */,
+				CB3DD73B1AF9EA57006D2972 /* configure.h */,
+			);
+			name = Troy;
+			path = MacRootkit;
+			sourceTree = "<group>";
+		};
+		973CEB1D1AC40B46007BECF2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CB3DD7331AF9E5E6006D2972 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CB3DD73E1AF9EAEE006D2972 /* Kernel */ = {
+			isa = PBXGroup;
+			children = (
+				CB3DD7481AFA16EC006D2972 /* HookSystemCall */,
+				CB3DD7471AFA16CC006D2972 /* KernelInfo */,
+			);
+			name = Kernel;
+			sourceTree = "<group>";
+		};
+		CB3DD7471AFA16CC006D2972 /* KernelInfo */ = {
+			isa = PBXGroup;
+			children = (
+				CB3DD74D1AFA174D006D2972 /* KernelInfo.c */,
+				CB3DD74E1AFA174D006D2972 /* KernelInfo.h */,
+			);
+			name = KernelInfo;
+			sourceTree = "<group>";
+		};
+		CB3DD7481AFA16EC006D2972 /* HookSystemCall */ = {
+			isa = PBXGroup;
+			children = (
+				CB3DD7491AFA1732006D2972 /* HookSystemCall.c */,
+				CB3DD74A1AFA1732006D2972 /* HookSystemCall.h */,
+			);
+			name = HookSystemCall;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		CB3DD7281AF9E1BB006D2972 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB3DD73C1AF9EAD8006D2972 /* debugInfo.h in Headers */,
+				CB3DD74C1AFA1732006D2972 /* HookSystemCall.h in Headers */,
+				CB3DD73D1AF9EAD8006D2972 /* configure.h in Headers */,
+				CB3DD7501AFA174D006D2972 /* KernelInfo.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		CB3DD7231AF9E1BB006D2972 /* Troy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CB3DD72B1AF9E1BB006D2972 /* Build configuration list for PBXNativeTarget "Troy" */;
+			buildPhases = (
+				CB3DD7241AF9E1BB006D2972 /* Sources */,
+				CB3DD7271AF9E1BB006D2972 /* Frameworks */,
+				CB3DD7281AF9E1BB006D2972 /* Headers */,
+				CB3DD72A1AF9E1BB006D2972 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Troy;
+			productName = MacRootkit;
+			productReference = CB3DD72E1AF9E1BB006D2972 /* Troy.kext */;
+			productType = "com.apple.product-type.kernel-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		973CEB111AC40B46007BECF2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = Axis;
+			};
+			buildConfigurationList = 973CEB141AC40B46007BECF2 /* Build configuration list for PBXProject "Troy" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 973CEB101AC40B46007BECF2;
+			productRefGroup = 973CEB1B1AC40B46007BECF2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CB3DD7231AF9E1BB006D2972 /* Troy */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CB3DD72A1AF9E1BB006D2972 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CB3DD7241AF9E1BB006D2972 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB3DD7391AF9E723006D2972 /* Troy.c in Sources */,
+				CB3DD74F1AFA174D006D2972 /* KernelInfo.c in Sources */,
+				CB3DD74B1AFA1732006D2972 /* HookSystemCall.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		973CEB211AC40B46007BECF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.10;
+			};
+			name = Debug;
+		};
+		973CEB221AC40B46007BECF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx10.10;
+			};
+			name = Release;
+		};
+		CB3DD72C1AF9E1BB006D2972 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				INFOPLIST_FILE = Troy/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MODULE_NAME = com.axis;
+				MODULE_START = troy_start;
+				MODULE_STOP = troy_stop;
+				MODULE_VERSION = 1.0.0d1;
+				PRODUCT_NAME = Troy;
+				SDKROOT = macosx10.10;
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Debug;
+		};
+		CB3DD72D1AF9E1BB006D2972 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				INFOPLIST_FILE = Troy/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MODULE_NAME = com.axis;
+				MODULE_START = troy_start;
+				MODULE_STOP = troy_stop;
+				MODULE_VERSION = 1.0.0d1;
+				PRODUCT_NAME = Troy;
+				SDKROOT = macosx10.10;
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		973CEB141AC40B46007BECF2 /* Build configuration list for PBXProject "Troy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973CEB211AC40B46007BECF2 /* Debug */,
+				973CEB221AC40B46007BECF2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CB3DD72B1AF9E1BB006D2972 /* Build configuration list for PBXNativeTarget "Troy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB3DD72C1AF9E1BB006D2972 /* Debug */,
+				CB3DD72D1AF9E1BB006D2972 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 973CEB111AC40B46007BECF2 /* Project object */;
+}
