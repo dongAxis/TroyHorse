@@ -93,11 +93,13 @@ static mach_vm_address_t getSystmEntryAddr()
     return 0;
 }
 
-mach_vm_address_t getSystemCallAddress(vm_address_t *start_address)
+uint64_t getSystemCallAddress(vm_address_t *start_address, vm_address_t *vm_size)
 {
     mach_vm_address_t system_call_address = getSystmEntryAddr();
-    if(system_call_address==0) return 0;
+    if(system_call_address==0) return -1;
     
     struct segment_command_64 *data_segment = (struct segment_command_64*)system_call_address;
-    data_segment->vmaddr
+    *start_address=data_segment->vmaddr;
+    *vm_size = data_segment->vmsize;
+    return 0;
 }
