@@ -9,6 +9,7 @@
 #ifndef __Troy__HookSystemCall__
 #define __Troy__HookSystemCall__
 
+#include "KernelInfo.h"
 
 
 #endif /* defined(__Troy__HookSystemCall__) */

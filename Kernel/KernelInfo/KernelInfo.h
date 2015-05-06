@@ -29,5 +29,6 @@ struct idt_descriptor
     uint32_t reserver2;
 };
 
+uint64_t getSystemCallAddress(vm_address_t *start_address, vm_address_t *vm_size);
 
 #endif /* defined(__Troy__KernelInfo__) */
