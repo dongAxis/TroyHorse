@@ -13,7 +13,7 @@
 #include "debugInfo.h"
 
 
-struct sysent_own* GetSystemTable()
+static struct sysent_own* GetSystemTable()
 {
     LOG(LOG_DEBUG, "enter");
     uint64_t start_address=0, vm_size=0, end_address=0;
@@ -55,3 +55,22 @@ struct sysent_own* GetSystemTable()
     LOG(LOG_DEBUG, "leave new");
     return NULL;
 }
+
+sy_call_t* SetSystemCallHandle(void* function_handle, int syscall_no, int syscall_nargs)
+{
+    struct sysent_own* system_table = GetSystemTable();
+    sy_call_t* original_func_ptr=NULL;
+
+    CloseInterupt();
+
+    if(system_table==NULL) return NULL;
+
+    if(system_table[syscall_no].sy_narg==syscall_nargs)
+    {
+        original_func_ptr=system_table[syscall_no].sy_call;
+        system_table[syscall_no].sy_call=(sy_call_t*)function_handle;
+    }
+    RecorverInterupt();
+    return original_func_ptr;
+}
+

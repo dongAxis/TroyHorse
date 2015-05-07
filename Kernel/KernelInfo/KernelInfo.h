@@ -30,5 +30,7 @@ struct idt_descriptor
 };
 
 uint64_t GetSystemCallAddress(uint64_t *start_address, uint64_t *vm_size);
+void CloseInterupt();
+void RecorverInterupt();
 
 #endif /* defined(__Troy__KernelInfo__) */

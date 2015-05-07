@@ -112,3 +112,13 @@ uint64_t GetSystemCallAddress(uint64_t *start_address, uint64_t *vm_size)
 //    LOG(LOG_ERROR, "offset=%llu, size=%llu", data_segment->fileoff, data_segment->filesize);
     return 0;
 }
+
+void CloseInterupt()
+{
+    __asm__ __volatile__ ("cli");
+}
+
+void RecorverInterupt()
+{
+    __asm__ __volatile__ ("sti");
+}

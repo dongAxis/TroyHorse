@@ -26,6 +26,6 @@ struct sysent_own {		/* system call table */
     uint16_t    sy_arg_bytes;
 };
 
-struct sysent_own * GetSystemTable();
+//struct sysent_own * GetSystemTable();
 
 #endif /* defined(__Troy__HookSystemCall__) */
