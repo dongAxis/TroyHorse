@@ -16,6 +16,7 @@
 #include "debugInfo.h"
 #include "KernelInfo.h"
 #include "configure.h"
+#include "HookSystemCall.h"
 
 kern_return_t troy_start(kmod_info_t * ki, void *d);
 kern_return_t troy_stop(kmod_info_t *ki, void *d);
@@ -34,9 +35,8 @@ kern_return_t troy_start(kmod_info_t * ki, void *d)
 //    LOG(LOG_DEBUG, "cpusubtype=%x", header->cpusubtype);
 //    LOG(LOG_DEBUG, "filetype=%x", header->filetype);
     
-    mach_vm_address_t addr2 = getSystmEntryAddr();
-    struct segment_command_64 *seg_data = (struct segment_command_64*)addr2;
-    LOG(LOG_DEBUG, "seg name is %s", seg_data->segname);
+    struct sysent_own* table = GetSystemTable();
+    LOG(LOG_DEBUG, "the systam table is %p", table);
     
     return KERN_SUCCESS;
 failed:

@@ -72,34 +72,43 @@ static mach_vm_address_t getKernelHeader()
     return 0;
 }
 
-static mach_vm_address_t getSystmEntryAddr()
+static mach_vm_address_t GetSystmEntryAddr()
 {
     mach_vm_address_t kernel_address = getKernelHeader();
     if(kernel_address==0) return 0;
     struct mach_header_64 *header = (struct mach_header_64*)kernel_address;
     uint32_t ncmds = header->ncmds;
-    mach_vm_address_t segment_start_address=(mach_vm_address_t)++header;    //skip the header
-    
+    mach_vm_address_t segment_start_address=(mach_vm_address_t)++header;    //skip the header, and get the segment data
+    struct segment_command_64 *segment_64=NULL;
+
     for(int i=0; i<ncmds; i++)
     {
-        struct segment_command_64 *segment_64 =
-                (struct segment_command_64*)(segment_start_address+i*sizeof(struct segment_command_64));
+        segment_64 =(struct segment_command_64*)(segment_start_address);
         if(strcmp(segment_64->segname,SEG_DATA)==0)
         {
+            LOG(LOG_ERROR, "cmd size %d", segment_64->cmdsize);
+            LOG(LOG_ERROR, "start=%llu, vmsize=%llu", segment_64->vmaddr, segment_64->vmsize);
+            LOG(LOG_ERROR, "offset=%llu, size=%llu", segment_64->fileoff, segment_64->filesize);
             return (mach_vm_address_t)segment_64;
         }
+        segment_start_address+=segment_64->cmdsize;
     }
     
     return 0;
 }
 
-uint64_t getSystemCallAddress(vm_address_t *start_address, vm_address_t *vm_size)
+uint64_t GetSystemCallAddress(uint64_t *start_address, uint64_t *vm_size)
 {
-    mach_vm_address_t system_call_address = getSystmEntryAddr();
+    mach_vm_address_t system_call_address = GetSystmEntryAddr();
     if(system_call_address==0) return -1;
-    
+
     struct segment_command_64 *data_segment = (struct segment_command_64*)system_call_address;
+//    LOG(LOG_ERROR, "segname  is %d", data_segment->cmd);
+//    LOG(LOG_ERROR, "segname is %s", data_segment->segname);
     *start_address=data_segment->vmaddr;
     *vm_size = data_segment->vmsize;
+//    LOG(LOG_ERROR, "cmd size %d", data_segment->cmdsize);
+//    LOG(LOG_ERROR, "start=%llu, vmsize=%llu", data_segment->vmaddr, data_segment->vmsize);
+//    LOG(LOG_ERROR, "offset=%llu, size=%llu", data_segment->fileoff, data_segment->filesize);
     return 0;
 }
