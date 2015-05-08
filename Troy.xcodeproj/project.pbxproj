@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB0063E21AFB8DAD00F6E9B5 /* Control.c in Sources */ = {isa = PBXBuildFile; fileRef = CB0063E01AFB8DAD00F6E9B5 /* Control.c */; };
+		CB0063E31AFB8DAD00F6E9B5 /* Control.h in Headers */ = {isa = PBXBuildFile; fileRef = CB0063E11AFB8DAD00F6E9B5 /* Control.h */; };
 		CB3DD7391AF9E723006D2972 /* Troy.c in Sources */ = {isa = PBXBuildFile; fileRef = CB3DD7351AF9E5F7006D2972 /* Troy.c */; };
 		CB3DD73C1AF9EAD8006D2972 /* debugInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = CB3DD73A1AF9E91D006D2972 /* debugInfo.h */; };
 		CB3DD73D1AF9EAD8006D2972 /* configure.h in Headers */ = {isa = PBXBuildFile; fileRef = CB3DD73B1AF9EA57006D2972 /* configure.h */; };
@@ -14,9 +16,13 @@
 		CB3DD74C1AFA1732006D2972 /* HookSystemCall.h in Headers */ = {isa = PBXBuildFile; fileRef = CB3DD74A1AFA1732006D2972 /* HookSystemCall.h */; };
 		CB3DD74F1AFA174D006D2972 /* KernelInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = CB3DD74D1AFA174D006D2972 /* KernelInfo.c */; };
 		CB3DD7501AFA174D006D2972 /* KernelInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = CB3DD74E1AFA174D006D2972 /* KernelInfo.h */; };
+		CB477DAB1AFC7A2F00AAB716 /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = CB477DA91AFC7A2F00AAB716 /* common.c */; };
+		CB477DAC1AFC7A2F00AAB716 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = CB477DAA1AFC7A2F00AAB716 /* common.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CB0063E01AFB8DAD00F6E9B5 /* Control.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Control.c; sourceTree = SOURCE_ROOT; };
+		CB0063E11AFB8DAD00F6E9B5 /* Control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Control.h; sourceTree = SOURCE_ROOT; };
 		CB3DD72E1AF9E1BB006D2972 /* Troy.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Troy.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB3DD7331AF9E5E6006D2972 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Troy/Info.plist; sourceTree = SOURCE_ROOT; };
 		CB3DD7351AF9E5F7006D2972 /* Troy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Troy.c; path = Troy/Troy.c; sourceTree = SOURCE_ROOT; };
@@ -26,6 +32,8 @@
 		CB3DD74A1AFA1732006D2972 /* HookSystemCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HookSystemCall.h; path = Kernel/HookSystemCall/HookSystemCall.h; sourceTree = SOURCE_ROOT; };
 		CB3DD74D1AFA174D006D2972 /* KernelInfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = KernelInfo.c; path = Kernel/KernelInfo/KernelInfo.c; sourceTree = SOURCE_ROOT; };
 		CB3DD74E1AFA174D006D2972 /* KernelInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KernelInfo.h; path = Kernel/KernelInfo/KernelInfo.h; sourceTree = SOURCE_ROOT; };
+		CB477DA91AFC7A2F00AAB716 /* common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = common.c; sourceTree = SOURCE_ROOT; };
+		CB477DAA1AFC7A2F00AAB716 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +66,7 @@
 		973CEB1C1AC40B46007BECF2 /* Troy */ = {
 			isa = PBXGroup;
 			children = (
+				CB477DA81AFC7A1500AAB716 /* common */,
 				CB3DD73E1AF9EAEE006D2972 /* Kernel */,
 				CB3DD7351AF9E5F7006D2972 /* Troy.c */,
 				973CEB1D1AC40B46007BECF2 /* Supporting Files */,
@@ -76,9 +85,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		CB0063DF1AFB8D7F00F6E9B5 /* Control */ = {
+			isa = PBXGroup;
+			children = (
+				CB0063E01AFB8DAD00F6E9B5 /* Control.c */,
+				CB0063E11AFB8DAD00F6E9B5 /* Control.h */,
+			);
+			name = Control;
+			sourceTree = "<group>";
+		};
 		CB3DD73E1AF9EAEE006D2972 /* Kernel */ = {
 			isa = PBXGroup;
 			children = (
+				CB0063DF1AFB8D7F00F6E9B5 /* Control */,
 				CB3DD7481AFA16EC006D2972 /* HookSystemCall */,
 				CB3DD7471AFA16CC006D2972 /* KernelInfo */,
 			);
@@ -103,6 +122,15 @@
 			name = HookSystemCall;
 			sourceTree = "<group>";
 		};
+		CB477DA81AFC7A1500AAB716 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				CB477DA91AFC7A2F00AAB716 /* common.c */,
+				CB477DAA1AFC7A2F00AAB716 /* common.h */,
+			);
+			name = common;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -110,6 +138,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB0063E31AFB8DAD00F6E9B5 /* Control.h in Headers */,
+				CB477DAC1AFC7A2F00AAB716 /* common.h in Headers */,
 				CB3DD73C1AF9EAD8006D2972 /* debugInfo.h in Headers */,
 				CB3DD74C1AFA1732006D2972 /* HookSystemCall.h in Headers */,
 				CB3DD73D1AF9EAD8006D2972 /* configure.h in Headers */,
@@ -180,8 +210,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB3DD7391AF9E723006D2972 /* Troy.c in Sources */,
+				CB477DAB1AFC7A2F00AAB716 /* common.c in Sources */,
 				CB3DD74F1AFA174D006D2972 /* KernelInfo.c in Sources */,
 				CB3DD74B1AFA1732006D2972 /* HookSystemCall.c in Sources */,
+				CB0063E21AFB8DAD00F6E9B5 /* Control.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

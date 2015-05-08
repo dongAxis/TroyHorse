@@ -17,13 +17,32 @@
 #include "KernelInfo.h"
 #include "configure.h"
 #include "HookSystemCall.h"
+#include "Control.h"
+#include "common.h"
 
 kern_return_t troy_start(kmod_info_t * ki, void *d);
 kern_return_t troy_stop(kmod_info_t *ki, void *d);
 
+#pragma make - lock object
+lck_grp_t *lck_grp=NULL;
+lck_grp_attr_t *lck_grp_attr=NULL;
+
 kern_return_t troy_start(kmod_info_t * ki, void *d)
 {
     LOG(LOG_DEBUG, "start");
+    errno_t error_code=KERN_SUCCESS;
+
+    //allocate lock's memory
+    error_code=alloc_kext_lock();
+    if(error_code!=KERN_SUCCESS) goto failed;
+
+    //init the device file for communicating
+    error_code = init_troy_components();
+    if(error_code!=KERN_SUCCESS)
+    {
+        goto failed;
+    }
+
 
 //    mach_vm_address_t addr =  getKernelHeader();
 //    if(addr==0)
@@ -35,18 +54,27 @@ kern_return_t troy_start(kmod_info_t * ki, void *d)
 //    LOG(LOG_DEBUG, "cpusubtype=%x", header->cpusubtype);
 //    LOG(LOG_DEBUG, "filetype=%x", header->filetype);
     
-    struct sysent_own* table = GetSystemTable();
-    LOG(LOG_DEBUG, "the systam table is %p", table);
-    
+//    struct sysent_own* table = GetSystemTable();
+//    LOG(LOG_DEBUG, "the systam table is %p", table);
+
     return KERN_SUCCESS;
 failed:
+    destroy_troy_component();   //free device files
+    free_kext_lock();           //free all kernel's lock
+
     return KERN_FAILURE;
 }
 
 kern_return_t troy_stop(kmod_info_t *ki, void *d)
 {
-    printf("[TROY] %s\n",__FUNCTION__);
-    printf("troy_stop stop\n");
-    
+    LOG(LOG_DEBUG, "Enter");
+
+    errno_t return_code=KERN_SUCCESS;
+    return_code=destroy_troy_component();   //free device files
+    if(return_code!=KERN_SUCCESS) return KERN_FAILURE;
+
+    free_kext_lock();           //free all kernel's lock
+
+    LOG(LOG_DEBUG, "Leave");
     return KERN_SUCCESS;
 }

@@ -58,6 +58,7 @@ static struct sysent_own* GetSystemTable()
 
 sy_call_t* SetSystemCallHandle(void* function_handle, int syscall_no, int syscall_nargs)
 {
+    LOG(LOG_DEBUG, "Enter");
     struct sysent_own* system_table = GetSystemTable();
     sy_call_t* original_func_ptr=NULL;
 
@@ -71,6 +72,7 @@ sy_call_t* SetSystemCallHandle(void* function_handle, int syscall_no, int syscal
         system_table[syscall_no].sy_call=(sy_call_t*)function_handle;
     }
     RecorverInterupt();
+    LOG(LOG_DEBUG, "Leave");
     return original_func_ptr;
 }
 
