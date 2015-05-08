@@ -18,6 +18,8 @@
 		CB3DD7501AFA174D006D2972 /* KernelInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = CB3DD74E1AFA174D006D2972 /* KernelInfo.h */; };
 		CB477DAB1AFC7A2F00AAB716 /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = CB477DA91AFC7A2F00AAB716 /* common.c */; };
 		CB477DAC1AFC7A2F00AAB716 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = CB477DAA1AFC7A2F00AAB716 /* common.h */; };
+		CB477DB31AFC8C4200AAB716 /* HookCAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = CB477DB11AFC8C4200AAB716 /* HookCAPI.c */; };
+		CB477DB41AFC8C4200AAB716 /* HookCAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = CB477DB21AFC8C4200AAB716 /* HookCAPI.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		CB3DD74E1AFA174D006D2972 /* KernelInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KernelInfo.h; path = Kernel/KernelInfo/KernelInfo.h; sourceTree = SOURCE_ROOT; };
 		CB477DA91AFC7A2F00AAB716 /* common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = common.c; sourceTree = SOURCE_ROOT; };
 		CB477DAA1AFC7A2F00AAB716 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = SOURCE_ROOT; };
+		CB477DB11AFC8C4200AAB716 /* HookCAPI.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HookCAPI.c; sourceTree = SOURCE_ROOT; };
+		CB477DB21AFC8C4200AAB716 /* HookCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HookCAPI.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +122,8 @@
 			children = (
 				CB3DD7491AFA1732006D2972 /* HookSystemCall.c */,
 				CB3DD74A1AFA1732006D2972 /* HookSystemCall.h */,
+				CB477DB11AFC8C4200AAB716 /* HookCAPI.c */,
+				CB477DB21AFC8C4200AAB716 /* HookCAPI.h */,
 			);
 			name = HookSystemCall;
 			sourceTree = "<group>";
@@ -144,6 +150,7 @@
 				CB3DD74C1AFA1732006D2972 /* HookSystemCall.h in Headers */,
 				CB3DD73D1AF9EAD8006D2972 /* configure.h in Headers */,
 				CB3DD7501AFA174D006D2972 /* KernelInfo.h in Headers */,
+				CB477DB41AFC8C4200AAB716 /* HookCAPI.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +221,7 @@
 				CB3DD74F1AFA174D006D2972 /* KernelInfo.c in Sources */,
 				CB3DD74B1AFA1732006D2972 /* HookSystemCall.c in Sources */,
 				CB0063E21AFB8DAD00F6E9B5 /* Control.c in Sources */,
+				CB477DB31AFC8C4200AAB716 /* HookCAPI.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,7 @@
 #include "Control.h"
 #include "configure.h"
 #include "debugInfo.h"
+#include "HookCAPI.h"
 
 errno_t init_troy_components();
 int  troy_ioctl_fn(dev_t dev, u_long cmd, caddr_t data, int fflag, struct proc *p);
@@ -45,19 +46,32 @@ int  troy_ioctl_fn(dev_t dev, u_long cmd, caddr_t data, int fflag, struct proc *
     switch (cmd) {
         case TROY_CMD_HIDE_FILE:
         {
-            troy_hide_object *file_hide = (troy_hide_object*)data;
-            if(file_hide==NULL) return TROY_ERROR_INVALID_PARAMETER;
-            if(file_hide->objec_type!=TROY_FILE) return TROY_ERROR_NOT_MATCH;
+//            troy_hide_object *file_hide = (troy_hide_object*)data;
+//            if(file_hide==NULL) return TROY_ERROR_INVALID_PARAMETER;
+//            if(file_hide->objec_type!=TROY_FILE) return TROY_ERROR_NOT_MATCH;
 
         }break;
         case TROY_CMD_HIDE_PROCESS:
-            break;
+        {
+            troy_hide_object *process_hide = (troy_hide_object*)data;
+            errno_t return_code = hide_given_process(process_hide);
+            if(return_code!=TROY_SUCCESS)
+            {
+                LOG(LOG_ERROR, "hide process error, error code is %d", return_code);
+                break;
+            }
+            LOG(LOG_DEBUG, "hide process successfully");
+        }break;
 
         case TROY_CMD_HIDE_DIR:
-            break;
+        {
+
+        }break;
 
         default:
-            break;
+        {
+
+        }
     }
     return 0;
 }

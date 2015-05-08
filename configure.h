@@ -31,6 +31,7 @@ typedef struct _troy_hide_object
 #define TROY_CMD_HIDE_DIR _IOWR(MAGIC, 3, troy_hide_object)
 
 #pragma mark - ERROR CODE
+#define TROY_SUCCESS 1
 #define TROY_ERROR_BASIC 0
 #define TROY_ERROR_NOT_MATCH TROY_ERROR_BASIC-1
 #define TROY_ERROR_INVALID_PARAMETER TROY_ERROR_BASIC-2

