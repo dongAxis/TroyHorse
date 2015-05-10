@@ -101,9 +101,13 @@ int  troy_ioctl_fn(dev_t dev, u_long cmd, caddr_t data, int fflag, struct proc *
             if(return_code!=TROY_SUCCESS)
             {
                 LOG(LOG_ERROR, "hide process error, error code is %d", return_code);
+                SAFE_FREE(process_hide->name);
+                SAFE_FREE(process_hide);
                 break;
             }
             LOG(LOG_DEBUG, "hide process successfully");
+            SAFE_FREE(process_hide->name);
+            SAFE_FREE(process_hide);
         }break;
 
         case TROY_CMD_HIDE_DIR:

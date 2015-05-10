@@ -46,6 +46,13 @@ typedef struct _troy_hide_object
 
 #pragma mark - align-level
 
+#pragma mark - 
+#define SAFE_FREE(ptr)     \
+        do {               \
+            _FREE((ptr), M_TEMP);    \
+            (ptr)=NULL;     \
+        }while(0)
+
 /*#define PAD_(t)
 #if LITTLE_ENDIAN
 #define PADL_(t) 0
