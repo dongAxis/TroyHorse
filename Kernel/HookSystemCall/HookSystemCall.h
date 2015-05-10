@@ -26,6 +26,7 @@ struct sysent_own {		/* system call table */
     uint16_t    sy_arg_bytes;
 };
 
-//struct sysent_own * GetSystemTable();
+int GetOriginalFunction(int syscall_no, sy_call_t **orginal_ptr);
+int SetSystemCallHandle(void* function_handle, int syscall_no, int syscall_nargs, void *original_handle);
 
 #endif /* defined(__Troy__HookSystemCall__) */

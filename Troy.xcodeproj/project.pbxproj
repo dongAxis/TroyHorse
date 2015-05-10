@@ -22,6 +22,16 @@
 		CB477DB41AFC8C4200AAB716 /* HookCAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = CB477DB21AFC8C4200AAB716 /* HookCAPI.h */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		CBE023211AFF230700883790 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CBE0231D1AFF230600883790 /* Horse.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CBE023131AFF230600883790;
+			remoteInfo = Horse;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		CB0063E01AFB8DAD00F6E9B5 /* Control.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Control.c; sourceTree = SOURCE_ROOT; };
 		CB0063E11AFB8DAD00F6E9B5 /* Control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Control.h; sourceTree = SOURCE_ROOT; };
@@ -38,6 +48,7 @@
 		CB477DAA1AFC7A2F00AAB716 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = SOURCE_ROOT; };
 		CB477DB11AFC8C4200AAB716 /* HookCAPI.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HookCAPI.c; sourceTree = SOURCE_ROOT; };
 		CB477DB21AFC8C4200AAB716 /* HookCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HookCAPI.h; sourceTree = SOURCE_ROOT; };
+		CBE0231D1AFF230600883790 /* Horse.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Horse.xcodeproj; path = Horse/Horse.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +65,7 @@
 		973CEB101AC40B46007BECF2 = {
 			isa = PBXGroup;
 			children = (
+				CBE0231D1AFF230600883790 /* Horse.xcodeproj */,
 				973CEB1C1AC40B46007BECF2 /* Troy */,
 				973CEB1B1AC40B46007BECF2 /* Products */,
 			);
@@ -137,6 +149,14 @@
 			name = common;
 			sourceTree = "<group>";
 		};
+		CBE0231E1AFF230600883790 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CBE023221AFF230700883790 /* Horse */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -194,12 +214,28 @@
 			mainGroup = 973CEB101AC40B46007BECF2;
 			productRefGroup = 973CEB1B1AC40B46007BECF2 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = CBE0231E1AFF230600883790 /* Products */;
+					ProjectRef = CBE0231D1AFF230600883790 /* Horse.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				CB3DD7231AF9E1BB006D2972 /* Troy */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		CBE023221AFF230700883790 /* Horse */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = Horse;
+			remoteRef = CBE023211AFF230700883790 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		CB3DD72A1AF9E1BB006D2972 /* Resources */ = {

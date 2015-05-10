@@ -11,7 +11,7 @@
 
 #include "HookSystemCall.h"
 #include "debugInfo.h"
-
+#include "configure.h"
 
 static struct sysent_own* GetSystemTable()
 {
@@ -56,23 +56,42 @@ static struct sysent_own* GetSystemTable()
     return NULL;
 }
 
-sy_call_t* SetSystemCallHandle(void* function_handle, int syscall_no, int syscall_nargs)
+int SetSystemCallHandle(void* function_handle, int syscall_no,
+                               int syscall_nargs, void *original_handle)
 {
     LOG(LOG_DEBUG, "Enter");
     struct sysent_own* system_table = GetSystemTable();
     sy_call_t* original_func_ptr=NULL;
 
-    CloseInterupt();
+    if(system_table==NULL) return TROY_ERROR_INVALID_PARAMETER;
 
-    if(system_table==NULL) return NULL;
+    CloseInterupt();
 
     if(system_table[syscall_no].sy_narg==syscall_nargs)
     {
         original_func_ptr=system_table[syscall_no].sy_call;
         system_table[syscall_no].sy_call=(sy_call_t*)function_handle;
+        original_handle=(void*)original_func_ptr;
     }
+    
     RecorverInterupt();
     LOG(LOG_DEBUG, "Leave");
-    return original_func_ptr;
+    return TROY_SUCCESS;
+}
+
+int GetOriginalFunction(int syscall_no, sy_call_t **orginal_ptr)
+{
+    LOG(LOG_DEBUG, "Enter");
+
+    struct sysent_own* system_table = GetSystemTable();
+
+    if(system_table==NULL) return TROY_ERROR_INVALID_PARAMETER;
+
+    CloseInterupt();
+    *orginal_ptr=system_table[syscall_no].sy_call;
+    RecorverInterupt();
+
+    LOG(LOG_DEBUG, "Leave");
+    return TROY_SUCCESS;
 }
 

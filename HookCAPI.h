@@ -9,6 +9,8 @@
 #ifndef __Troy__HookCAPI__
 #define __Troy__HookCAPI__
 
+#include "configure.h"
+
 #define PROCESS_NAME_LENGTH 100+1
 //attention:
 //Althrough the struct proc have so many members, but for hiding the process,
