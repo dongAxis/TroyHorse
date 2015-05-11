@@ -36,8 +36,10 @@ typedef struct _troy_hide_object
 #define TROY_ERROR_BASIC 0
 #define TROY_ERROR_NOT_MATCH TROY_ERROR_BASIC-1
 #define TROY_ERROR_INVALID_PARAMETER TROY_ERROR_BASIC-2
+#define TROY_ERROR_NOMEM TROY_ERROR_BASIC-3
+#define TROY_ERROR_DATA_LENGTH_INVALID TROY_ERROR_BASIC-4
 
-#pragma mark -
+#pragma mark - character device name & absolute path
 #define TROY_DEV_NAME "troy_dev"
 #define TROY_ABSOLUTE_DEV_PATH "/dev/"TROY_DEV_NAME
 

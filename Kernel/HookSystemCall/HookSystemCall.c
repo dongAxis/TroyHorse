@@ -13,7 +13,9 @@
 #include "debugInfo.h"
 #include "configure.h"
 
-static struct sysent_own* GetSystemTable()
+extern struct sysent_own* system_table;
+
+struct sysent_own* GetSystemTable()
 {
     LOG(LOG_DEBUG, "enter");
     uint64_t start_address=0, vm_size=0, end_address=0;
@@ -56,41 +58,48 @@ static struct sysent_own* GetSystemTable()
     return NULL;
 }
 
-int SetSystemCallHandle(void* function_handle, int syscall_no,
-                               int syscall_nargs, void *original_handle)
+int SetSystemCallHandle(void* function_handle, int syscall_no)
 {
     LOG(LOG_DEBUG, "Enter");
-    struct sysent_own* system_table = GetSystemTable();
     sy_call_t* original_func_ptr=NULL;
 
     if(system_table==NULL) return TROY_ERROR_INVALID_PARAMETER;
 
     CloseInterupt();
+    DISABLE_WRITE_PROTECTION();
 
-    if(system_table[syscall_no].sy_narg==syscall_nargs)
-    {
-        original_func_ptr=system_table[syscall_no].sy_call;
-        system_table[syscall_no].sy_call=(sy_call_t*)function_handle;
-        original_handle=(void*)original_func_ptr;
-    }
-    
+    original_func_ptr=system_table[syscall_no].sy_call;
+    system_table[syscall_no].sy_call=(sy_call_t*)function_handle;
+
+    ENABLE_WRITE_PROTECTION();
     RecorverInterupt();
     LOG(LOG_DEBUG, "Leave");
     return TROY_SUCCESS;
+}
+
+int CancelSystemCallHandle(void *original_func_ptr, void *current_func_ptr, int syscall_no)
+{
+    LOG(LOG_DEBUG,"Enter");
+
+
+
+    LOG(LOG_DEBUG, "Leave");
+    return 0;
 }
 
 int GetOriginalFunction(int syscall_no, sy_call_t **orginal_ptr)
 {
     LOG(LOG_DEBUG, "Enter");
 
-    struct sysent_own* system_table = GetSystemTable();
-
     if(system_table==NULL) return TROY_ERROR_INVALID_PARAMETER;
 
     CloseInterupt();
+    DISABLE_WRITE_PROTECTION();
     *orginal_ptr=system_table[syscall_no].sy_call;
+    ENABLE_WRITE_PROTECTION();
     RecorverInterupt();
 
+    LOG(LOG_ERROR, "original_getdirentries_ptr address is %p", *orginal_ptr);
     LOG(LOG_DEBUG, "Leave");
     return TROY_SUCCESS;
 }

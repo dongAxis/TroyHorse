@@ -11,10 +11,21 @@
 
 #include "KernelInfo.h"
 
+#define DISABLE_WRITE_PROTECTION() asm volatile ( \
+    "mov %cr0,%rax\n" \
+    "and $0xfffffffffffeffff,%rax\n" \
+    "mov %rax,%cr0" \
+)
+// re-enable write protection by re-setting wp flag in ctrl reg cr0
+#define ENABLE_WRITE_PROTECTION() asm volatile ( \
+    "mov %cr0,%rax\n" \
+    "or $0x10000,%rax\n" \
+    "mov %rax,%cr0\n" \
+)
+
 /*
  for Yousemite.
  */
-
 typedef int32_t  sy_call_t(struct proc*, void*, int*);
 typedef void sy_munge_t(const void*,void*);
 
@@ -27,6 +38,7 @@ struct sysent_own {		/* system call table */
 };
 
 int GetOriginalFunction(int syscall_no, sy_call_t **orginal_ptr);
-int SetSystemCallHandle(void* function_handle, int syscall_no, int syscall_nargs, void *original_handle);
+int SetSystemCallHandle(void* function_handle, int syscall_no);
+struct sysent_own* GetSystemTable();
 
 #endif /* defined(__Troy__HookSystemCall__) */

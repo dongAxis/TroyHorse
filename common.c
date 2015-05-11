@@ -22,6 +22,7 @@ extern lck_grp_attr_t *lck_grp_attr;
 extern lck_mtx_t *lck_mtx_hide_process;
 extern lck_mtx_t *lck_mtx_hide_file;
 extern lck_mtx_t *lck_mtx_hide_directory;
+extern lck_mtx_t *lck_mtx_hide_proc_array;
 
 errno_t alloc_kext_lock()
 {
@@ -63,6 +64,13 @@ errno_t alloc_kext_lock()
         return KERN_FAILURE;
     }
 
+    lck_mtx_hide_proc_array=lck_mtx_alloc_init(lck_grp, LCK_ATTR_NULL);
+    if(lck_mtx_hide_proc_array==NULL)
+    {
+        LOG(LOG_ERROR, "lck_mtx_hide_proc_array allocate memory failed");
+        return KERN_FAILURE;
+    }
+
     LOG(LOG_DEBUG, "Leave");
     return KERN_SUCCESS;
 }
@@ -86,6 +94,12 @@ void free_kext_lock()
     {
         lck_mtx_free(lck_mtx_hide_directory, lck_grp);
         lck_mtx_hide_directory=NULL;
+    }
+
+    if(lck_mtx_hide_proc_array)
+    {
+        lck_mtx_free(lck_mtx_hide_proc_array, lck_grp);
+        lck_mtx_hide_proc_array=NULL;
     }
 
     //free lock group
