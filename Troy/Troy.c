@@ -59,7 +59,7 @@ kern_return_t troy_start(kmod_info_t * ki, void *d)
 
     TAILQ_INIT(&hide_proc_array);   //init process array that the process is hidden
 
-    system_table = GetSystemTable();    
+    system_table = GetSystemTable();    //get system table's address
 
 //    mach_vm_address_t addr =  getKernelHeader();
 //    if(addr==0)
