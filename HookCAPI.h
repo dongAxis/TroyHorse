@@ -23,6 +23,7 @@ struct	proc_yousemite
 
 struct hide_proc
 {
+    TAILQ_ENTRY(hide_proc) next_ptr;
     struct proc_yousemite *proc;
     char name[PROCESS_NAME_LENGTH];
 };

@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "88"
             endingLineNumber = "88"
-            landmarkName = "init_troy_components()"
+            landmarkName = "troy_ioctl_fn()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

