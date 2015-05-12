@@ -20,7 +20,7 @@ if the kernel extension is loaded successfully, please run the user mode execute
 You can follow the help menu to do some operations.
 
 ###MileStone
-May 10: complete hide process, and control module in user space land
+May 10: complete hide process, and control module in user space land<br/>
 May 11: complete hide direct
 
 Happy
