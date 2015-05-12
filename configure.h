@@ -10,20 +10,25 @@
 #define Troy_configure_h
 
 #include <sys/ioctl.h>
+#include <sys/queue.h>
 
-#pragma pack(4)
+#pragma pack(8)
+typedef enum
+{
+    TROY_DIR=1,
+    TROY_FILE,
+    TROY_PROCESS
+}TROY_TYPE;
+
 typedef struct _troy_hide_object
 {
-    enum
-    {
-        TROY_DIR=1,
-        TROY_FILE,
-        TROY_PROCESS
-    }objec_type;
+    TROY_TYPE objec_type;
     char *name;
     uint64_t name_len;
 }troy_hide_object;
 #pragma pack()
+
+//TAILQ_HEAD(troy_array_entry, _troy_hide_object);    //this is the array
 
 #pragma mark - DEVICE CMD
 #define MAGIC_NUM 'a'
@@ -34,10 +39,11 @@ typedef struct _troy_hide_object
 #pragma mark - ERROR CODE
 #define TROY_SUCCESS 1
 #define TROY_ERROR_BASIC 0
-#define TROY_ERROR_NOT_MATCH TROY_ERROR_BASIC-1
-#define TROY_ERROR_INVALID_PARAMETER TROY_ERROR_BASIC-2
-#define TROY_ERROR_NOMEM TROY_ERROR_BASIC-3
-#define TROY_ERROR_DATA_LENGTH_INVALID TROY_ERROR_BASIC-4
+#define TROY_ERROR_NOT_MATCH                    TROY_ERROR_BASIC-1
+#define TROY_ERROR_INVALID_PARAMETER            TROY_ERROR_BASIC-2
+#define TROY_ERROR_NOMEM                        TROY_ERROR_BASIC-3
+#define TROY_ERROR_DATA_LENGTH_INVALID          TROY_ERROR_BASIC-4
+#define TROY_ERROR_HIDE_ARRAY_IS_EMPRY          TROY_ERROR_BASIC-5
 
 #pragma mark - character device name & absolute path
 #define TROY_DEV_NAME "troy_dev"

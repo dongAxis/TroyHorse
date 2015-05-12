@@ -87,7 +87,7 @@ int CancelSystemCallHandle(void *original_func_ptr, void *current_func_ptr, int 
     return 0;
 }
 
-int GetOriginalFunction(int syscall_no, sy_call_t **orginal_ptr)
+int GetOriginalFunction(int syscall_no, mach_vm_address_t *orginal_ptr_addr)
 {
     LOG(LOG_DEBUG, "Enter");
 
@@ -95,11 +95,12 @@ int GetOriginalFunction(int syscall_no, sy_call_t **orginal_ptr)
 
     CloseInterupt();
     DISABLE_WRITE_PROTECTION();
-    *orginal_ptr=system_table[syscall_no].sy_call;
+    *orginal_ptr_addr=(mach_vm_address_t)system_table[syscall_no].sy_call;
+    LOG(LOG_ERROR, "1. original_getdirentries_ptr address is %p", system_table[syscall_no].sy_call);
     ENABLE_WRITE_PROTECTION();
     RecorverInterupt();
 
-    LOG(LOG_ERROR, "original_getdirentries_ptr address is %p", *orginal_ptr);
+    LOG(LOG_ERROR, "2. original_getdirentries_ptr address is %llx", *orginal_ptr_addr);
     LOG(LOG_DEBUG, "Leave");
     return TROY_SUCCESS;
 }

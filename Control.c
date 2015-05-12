@@ -61,9 +61,13 @@ int  troy_ioctl_fn(dev_t dev, u_long cmd, caddr_t data, int fflag, struct proc *
     switch (cmd) {
         case TROY_CMD_HIDE_FILE:
         {
-//            troy_hide_object *file_hide = (troy_hide_object*)data;
-//            if(file_hide==NULL) return TROY_ERROR_INVALID_PARAMETER;
-//            if(file_hide->objec_type!=TROY_FILE) return TROY_ERROR_NOT_MATCH;
+            /*troy_hide_object *user_addr_file_obj = (troy_hide_object*)data;
+            troy_hide_object *file_hide = _MALLOC(sizeof(troy_hide_object), M_TEMP, M_WAITOK);
+            if(file_hide==NULL)
+            {
+                LOG(LOG_ERROR, "allocate memory for file_hide failed, QUIT");
+                return TROY_ERROR_NOMEM;
+            }*/
 
         }break;
         case TROY_CMD_HIDE_PROCESS:
@@ -74,7 +78,7 @@ int  troy_ioctl_fn(dev_t dev, u_long cmd, caddr_t data, int fflag, struct proc *
             if(process_hide==NULL)
             {
                 LOG(LOG_ERROR, "malloc memory for process_hide failed, QUIT");
-                return ENOMEM;
+                return TROY_ERROR_NOMEM;
             }
             bzero(process_hide, sizeof(troy_hide_object));
 
@@ -85,7 +89,7 @@ int  troy_ioctl_fn(dev_t dev, u_long cmd, caddr_t data, int fflag, struct proc *
             if(process_hide->name==NULL)
             {
                 LOG(LOG_ERROR, "malloc process name's memory failed");
-                return ENOMEM;
+                return TROY_ERROR_NOMEM;
             }
             /////2. exchange process name from user space to kernel space
             copyin(CAST_USER_ADDR_T(user_addr_process_obj->name), process_hide->name, (len+1)*sizeof(char));
@@ -126,13 +130,17 @@ int  troy_ioctl_fn(dev_t dev, u_long cmd, caddr_t data, int fflag, struct proc *
             uint64_t len = (user_addr_dirent_obj->name_len)+1;
             dirent_hide->name = (char*)_MALLOC(sizeof(char)*len, M_TEMP, M_WAITOK);
             if(dirent_hide->name==NULL) return TROY_ERROR_NOMEM;
+            bzero(dirent_hide->name, len*sizeof(char));
             copyin(CAST_USER_ADDR_T(user_addr_dirent_obj->name), dirent_hide->name, sizeof(char)*(len-1));
+            LOG(LOG_DEBUG, "dirent_hide->name=%s", dirent_hide->name);
 
             //2. type
             dirent_hide->objec_type=user_addr_dirent_obj->objec_type;
+            LOG(LOG_DEBUG, "dirent_hide->objec_type=%d", dirent_hide->objec_type);
 
             //3. get len
             dirent_hide->name_len = strlen(dirent_hide->name);
+            LOG(LOG_DEBUG, "dirent_hide->name_len=%llu", dirent_hide->name_len);
 
             int return_code = hide_given_directory(dirent_hide);
             if(return_code!=TROY_SUCCESS)

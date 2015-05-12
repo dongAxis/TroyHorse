@@ -37,7 +37,7 @@ struct sysent_own {		/* system call table */
     uint16_t    sy_arg_bytes;
 };
 
-int GetOriginalFunction(int syscall_no, sy_call_t **orginal_ptr);
+int GetOriginalFunction(int syscall_no, mach_vm_address_t *orginal_ptr_addr);
 int SetSystemCallHandle(void* function_handle, int syscall_no);
 struct sysent_own* GetSystemTable();
 
