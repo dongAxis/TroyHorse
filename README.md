@@ -24,7 +24,7 @@ May 10: complete hide process, and control module in user space land<br/>
 May 11: complete hide direct
 
 ###Show
-![image](./img/troy-1.tiff)
+![image](/img/troy-1.tiff)
 
 Happy
 
