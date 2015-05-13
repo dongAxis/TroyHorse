@@ -12,8 +12,10 @@
 #include "HookSystemCall.h"
 #include "debugInfo.h"
 #include "configure.h"
+#include "HookCAPI.h"
 
 extern struct sysent_own* system_table;
+extern getattrlist_function_prototype my_getattrlist;
 
 struct sysent_own* GetSystemTable()
 {

