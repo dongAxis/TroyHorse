@@ -84,6 +84,7 @@
 			children = (
 				CB477DA81AFC7A1500AAB716 /* common */,
 				CB3DD73E1AF9EAEE006D2972 /* Kernel */,
+				CB477DB21AFC8C4200AAB716 /* HookCAPI.h */,
 				CB3DD7351AF9E5F7006D2972 /* Troy.c */,
 				973CEB1D1AC40B46007BECF2 /* Supporting Files */,
 				CB3DD73A1AF9E91D006D2972 /* debugInfo.h */,
@@ -135,7 +136,6 @@
 				CB3DD7491AFA1732006D2972 /* HookSystemCall.c */,
 				CB3DD74A1AFA1732006D2972 /* HookSystemCall.h */,
 				CB477DB11AFC8C4200AAB716 /* HookCAPI.c */,
-				CB477DB21AFC8C4200AAB716 /* HookCAPI.h */,
 			);
 			name = HookSystemCall;
 			sourceTree = "<group>";
