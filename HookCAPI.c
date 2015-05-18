@@ -356,7 +356,7 @@ int my_getattrlistbulk_callback(struct proc * p,struct getattrlistbulk_args *uap
                         attr_data_size-=attr_data->length;
                         *retval-=1;
                         LOG(LOG_ERROR, "remain_data_size=%llu", remain_data_size);
-                        //__asm("int3");
+                        __asm("int3");
                         bcopy((char*)base_attr_data_addr+attr_data->length, (char*)base_attr_data_addr,remain_data_size);
                     }
                 }
@@ -367,10 +367,11 @@ int my_getattrlistbulk_callback(struct proc * p,struct getattrlistbulk_args *uap
         base_attr_data_addr+=attr_data->length;
         LOG(LOG_ERROR, "remain_data_size=%llu", remain_data_size);
     }
-//    __asm("int3");
-    copyout(base_attr_data_addr, uap->attributeBuffer, attr_data_size);
-//    __asm("int3");
-    uap->bufferSize=attr_data_size;
+    LOG(LOG_ERROR, "retval=%d", *retval);
+    __asm("int3");
+    copyout(attr_data_address, uap->attributeBuffer, attr_data_size);
+    __asm("int3");
+    //uap->bufferSize=attr_data_size;
 
 clean:
     if(attr_data_address!=NULL) SAFE_FREE(attr_data_address);
