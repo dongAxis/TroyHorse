@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>5522CE44-67D9-47AD-9BA9-32A2599110E3</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Troy</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>0EDCD4E6ED308075038494F5BACEB8AD63007110</key>
 		<string>https://github.com/dongAxis/TroyHourse.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Troy.xcodeproj/project.xcworkspace</string>
+	<string>Troy.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>0EDCD4E6ED308075038494F5BACEB8AD63007110</key>

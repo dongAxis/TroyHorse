@@ -378,8 +378,6 @@ int my_getattrlistbulk_callback(struct proc * p,struct getattrlistbulk_args *uap
         uap->bufferSize=attr_data_size;   //update the buffer size
         copyout(attr_data_address, uap->attributeBuffer, attr_data_size);
     }
-//    __asm("int3");
-    //uap->bufferSize=attr_data_size;
 
 clean:
     if(attr_data_address!=NULL) SAFE_FREE(attr_data_address);
